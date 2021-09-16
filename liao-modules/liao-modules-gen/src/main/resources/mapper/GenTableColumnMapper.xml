@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liao.gen.dao.GenTableColumnMapper">
+    <resultMap id="BaseResultMap" type="com.liao.gen.entity.GenTableColumn">
+        <id column="column_id" property="columnId"/>
+        <result column="table_id" property="tableId"/>
+        <result column="column_name" property="columnName"/>
+        <result column="column_comment" property="columnComment"/>
+        <result column="column_type" property="columnType"/>
+        <result column="java_type" property="javaType"/>
+        <result column="java_field" property="javaField"/>
+        <result column="is_pk" property="isPk"/>
+        <result column="is_increment" property="isIncrement"/>
+        <result column="is_required" property="isRequired"/>
+        <result column="is_insert" property="isInsert"/>
+        <result column="is_edit" property="isEdit"/>
+        <result column="is_list" property="isList"/>
+        <result column="is_query" property="isQuery"/>
+        <result column="query_type" property="queryType"/>
+        <result column="html_type" property="htmlType"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="sort" property="sort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_time, update_time
+    </sql>
+
+    <select id="selectDbTableColumnsByName" parameterType="String" resultMap="BaseResultMap">
+        SELECT column_name,
+               (CASE WHEN (is_nullable = 'no' <![CDATA[ && ]]> column_key != 'PRI') THEN '1' else null END) AS is_required,
+               (CASE WHEN column_key = 'PRI' THEN '1' ELSE '0' END)                           AS is_pk,
+               ordinal_position                                                               AS sort,
+               column_comment,
+               (CASE WHEN extra = 'auto_increment' then '1' ELSE '0' END)                     AS is_increment,
+               column_type
+        FROM information_schema.columns
+        WHERE table_schema = (SELECT DATABASE())
+          AND table_name = (#{tableName})
+        ORDER BY ordinal_position
+    </select>
+
+    <select id="selectGenTableColumnListByTableId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM gen_table_column
+        WHERE
+        table_id = #{tableId}
+        ORDER BY sort
+    </select>
+
+    <delete id="deleteGenTableColumnByTableId">
+        DELETE FROM gen_table_column WHERE table_id = #{tableId}
+    </delete>
+</mapper>

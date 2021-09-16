@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liao.gen.dao.GenTableMapper">
+    <resultMap id="BaseResultMap" type="com.liao.gen.entity.GenTable">
+        <id column="table_id" property="tableId"/>
+        <result column="table_name" property="tableName"/>
+        <result column="table_comment" property="tableComment"/>
+        <result column="class_name" property="className"/>
+        <result column="package_name" property="packageName"/>
+        <result column="module_name" property="moduleName"/>
+        <result column="business_name" property="businessName"/>
+        <result column="function_name" property="functionName"/>
+        <result column="function_author" property="functionAuthor"/>
+        <result column="parent_menu_id" property="parentMenuId"/>
+        <result column="deleted" property="deleted"/>
+        <result column="version" property="version"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <resultMap id="GenTableColumnResult" type="com.liao.gen.entity.GenTable" extends="BaseResultMap">
+        <collection property="columns" resultMap="com.liao.gen.dao.GenTableColumnMapper.BaseResultMap"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        table_id, table_name, table_comment, class_name, package_name, module_name, business_name, function_name, function_author, parent_menu_id, deleted, version, create_time, update_time
+    </sql>
+
+    <!--查询所有表名称-->
+    <select id="selectDbTableList" resultMap="BaseResultMap">
+        SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
+        WHERE table_schema = (SELECT DATABASE())
+        AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
+        <if test="genTable.tableName != null and genTable.tableName != ''">
+            AND lower(table_name) like lower(concat('%', #{genTable.tableName}, '%'))
+        </if>
+        <if test="genTable.tableComment != null and genTable.tableComment != ''">
+            AND lower(table_comment) like lower(concat('%', #{genTable.tableComment}, '%'))
+        </if>
+    </select>
+
+    <!--查询指定表名称-->
+    <select id="selectDbTableListByNames" resultMap="BaseResultMap">
+        SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
+        WHERE table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%' AND table_schema = (SELECT database())
+        AND table_name IN
+        <foreach collection="array" item="name" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+
+    <!--业务表 字段表联查-->
+    <select id="selectGenTableById" parameterType="Long" resultMap="GenTableColumnResult">
+        SELECT t.table_id,
+               t.table_name,
+               t.table_comment,
+               t.class_name,
+               t.package_name,
+               t.module_name,
+               t.business_name,
+               t.function_name,
+               t.function_author,
+               t.parent_menu_id,
+               c.column_id,
+               c.column_name,
+               c.column_comment,
+               c.column_type,
+               c.java_type,
+               c.java_field,
+               c.is_pk,
+               c.is_increment,
+               c.is_required,
+               c.is_insert,
+               c.is_edit,
+               c.is_list,
+               c.is_query,
+               c.query_type,
+               c.html_type,
+               c.dict_type,
+               c.sort
+        FROM gen_table t
+                     LEFT JOIN gen_table_column c ON t.table_id = c.table_id
+        WHERE t.table_id = #{tableId}
+        ORDER BY c.sort
+    </select>
+
+    <select id="selectGenTableByName" resultMap="GenTableColumnResult">
+        SELECT t.table_id,
+               t.table_name,
+               t.table_comment,
+               t.class_name,
+               t.package_name,
+               t.module_name,
+               t.business_name,
+               t.function_name,
+               t.function_author,
+
+               c.column_id,
+               c.column_name,
+               c.column_comment,
+               c.column_type,
+               c.java_type,
+               c.java_field,
+               c.is_pk,
+               c.is_increment,
+               c.is_required,
+               c.is_insert,
+               c.is_edit,
+               c.is_list,
+               c.is_query,
+               c.query_type,
+               c.html_type,
+               c.dict_type,
+               c.sort
+        FROM gen_table t
+                     LEFT JOIN gen_table_column c ON t.table_id = c.table_id
+        WHERE t.table_name = #{tableName}
+        ORDER BY c.sort
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liao.datascope.system.dao.SysOpenLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.liao.datascope.system.entity.SysOpenLog">
+        <id column="oper_id" property="operId"/>
+        <result column="oper_title" property="operTitle"/>
+        <result column="open_business_type" property="openBusinessType"/>
+        <result column="open_method" property="openMethod"/>
+        <result column="open_request_method" property="openRequestMethod"/>
+        <result column="open_url" property="openUrl"/>
+        <result column="oper_location" property="operLocation"/>
+        <result column="oper_param" property="operParam"/>
+        <result column="open_result" property="openResult"/>
+        <result column="open_status" property="openStatus"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        oper_id, oper_title, open_business_type, open_method, open_request_method, open_url, oper_location, oper_param, open_result, open_status, create_time
+    </sql>
+
+</mapper>

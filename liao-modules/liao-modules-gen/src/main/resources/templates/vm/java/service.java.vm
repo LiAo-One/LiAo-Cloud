@@ -1,0 +1,82 @@
+package ${packageName}.service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${packageName}.entity.${ClassName};
+
+import java.util.List;
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${ClassName}Service extends IService<${ClassName}> {
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} 条件
+     * @return ${functionName}集合
+     */
+    IPage<${ClassName}> select${ClassName}List(${ClassName} ${className});
+
+    /**
+     * 根据id查询${ClassName}数据
+     *
+     * @param ${pkColumn.javaField} ${pkColumn.javaField}
+     * @return 结果
+     */
+     ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    int insert${ClassName}(${ClassName} ${className});
+
+    /**
+     * 根据id修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    int update${ClassName}(${ClassName} ${className});
+
+    /**
+     * 根据id删除${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return 结果
+     */
+    int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 根据id批量查询${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${functionName}id结合
+     * @return 结果
+     */
+    List<${ClassName}> select${ClassName}ByIds(List<${pkColumn.javaType}> ${pkColumn.javaField}s);
+
+    /**
+     * 根据id批量删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${functionName}id集合
+     * @return 结果
+     */
+    int delete${ClassName}ByIds(List<${pkColumn.javaType}> ${pkColumn.javaField}s);
+
+    /**
+     * ${ClassName}条件构建
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    QueryWrapper<${ClassName}> get${ClassName}QueryWrapper(${ClassName} ${className});
+
+}

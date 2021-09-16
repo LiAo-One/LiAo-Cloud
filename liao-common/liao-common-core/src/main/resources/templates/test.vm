@@ -1,0 +1,7 @@
+<html>
+<title>Hello Velocity</title>
+<body>
+<H2> Welcome use Velocity</H2>
+${test}
+</body>
+</html>

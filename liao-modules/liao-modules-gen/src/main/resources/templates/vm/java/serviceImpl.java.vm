@@ -1,0 +1,188 @@
+package ${packageName}.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.liao.datascope.core.page.PageUtils;
+import com.liao.common.exception.check.MissingParametersException;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.services.${ClassName}Service;
+import com.liao.common.utils.StringUtils;
+import ${packageName}.dao.${ClassName}Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements ${ClassName}Service {
+
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} 条件
+     * @return ${functionName}集合
+     */
+    @Override
+    public IPage<${ClassName}> select${ClassName}List(${ClassName} ${className}) {
+
+        // 分页信息
+        IPage<${ClassName}> page = PageUtils.startPage();
+
+        // 构造条件
+        QueryWrapper<${ClassName}> queryWrapper = get${ClassName}QueryWrapper(${className});
+
+        // 返回结果
+        return  ${className}Mapper.selectPage(page, queryWrapper);
+    }
+
+    /**
+     * 根据id查询${ClassName}数据
+     *
+     * @param ${pkColumn.javaField} ${pkColumn.javaField}
+     * @return 结果
+     */
+    @Override
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ${className}Mapper.selectById(${pkColumn.javaField});
+    }
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int insert${ClassName}(${ClassName} ${className}){
+        return ${className}Mapper.insert(${className});
+    }
+
+    /**
+     * 根据id修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int update${ClassName}(${ClassName} ${className}){
+#if($pkColumn)
+#if($pkColumn.javaField.length() > 2 && $pkColumn.javaField.substring(1,2).matches("[A-Z]"))
+#set($AttrName=$pkColumn.javaField)
+#else
+#set($AttrName=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
+#end
+#end
+        if (StringUtils.isNull(${className}.get$AttrName())) {
+            throw new MissingParametersException("${pkColumn.javaField}");
+        }
+
+        return ${className}Mapper.updateById(${className});
+    }
+
+    /**
+     * 根据id删除${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}){
+
+        if (StringUtils.isEmpty(${pkColumn.javaField})) {
+            throw new MissingParametersException("${pkColumn.javaField}");
+        }
+
+        return ${className}Mapper.deleteById(${pkColumn.javaField});
+    }
+
+    /**
+     * 根据id批量查询${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${functionName}id结合
+     * @return 结果
+     */
+    @Override
+    public List<${ClassName}> select${ClassName}ByIds(List<${pkColumn.javaType}> ${pkColumn.javaField}s){
+
+        if (StringUtils.isEmpty(${pkColumn.javaField}s)) {
+            throw new MissingParametersException("${pkColumn.javaField}");
+        }
+
+        return ${className}Mapper.selectBatchIds(${pkColumn.javaField}s);
+    }
+
+    /**
+     * 根据id批量删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${functionName}id集合
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public int delete${ClassName}ByIds(List<${pkColumn.javaType}> ${pkColumn.javaField}s){
+        if (StringUtils.isEmpty(${pkColumn.javaField}s)) {
+            throw new MissingParametersException("${pkColumn.javaField}");
+        }
+
+        return ${className}Mapper.deleteBatchIds(${pkColumn.javaField}s);
+    }
+
+    /**
+     * ${ClassName}条件构建
+     *
+     * @param ${className} ${className}
+     * @return 结果
+     */
+    @Override
+    public QueryWrapper<${ClassName}> get${ClassName}QueryWrapper(${ClassName} ${className}){
+
+        // 构造条件
+        QueryWrapper<${ClassName}> queryWrapper = new QueryWrapper<>();
+
+#foreach($column in $columns)
+        // $column.columnComment
+#if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
+#set($AttrName=$column.javaField)
+#else
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#end
+#if($column.queryType == 'EQ')
+        queryWrapper.eq(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'LIKE')
+        queryWrapper.like(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'NE')
+        queryWrapper.ne(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'GT')
+        queryWrapper.gt(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'GTE')
+        queryWrapper.ge(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'LT')
+        queryWrapper.lt(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'LTE')
+        queryWrapper.le(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#if($column.queryType == 'BETWEEN')
+        queryWrapper.between(StringUtils.isNotNull(${className}.get${AttrName}()), "$column.columnName", ${className}.get${AttrName}());
+#end
+#end
+        return queryWrapper;
+    }
+}

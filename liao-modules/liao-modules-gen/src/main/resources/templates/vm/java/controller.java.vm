@@ -1,0 +1,93 @@
+package ${packageName}.controller;
+
+import com.liao.common.annotation.Log;
+import com.liao.common.core.R;
+import com.liao.common.enums.BusinessType;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.services.${ClassName}Service;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${functionName}Controller
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Validated
+@RestController
+@RequestMapping("/${moduleName}/${businessName}")
+@Api(tags = "${functionName}")
+public class ${ClassName}Controller {
+
+    @Autowired
+    private ${ClassName}Service ${className}Service;
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} 条件
+     * @return ${functionName}集合
+     */
+    @GetMapping("/list")
+    @ApiOperation("查询${functionName}列表")
+    public R list(${ClassName} ${className}){
+        return R.success(${className}Service.select${ClassName}List(${className}));
+    }
+
+    /**
+     * 查询${ClassName}数据
+     *
+     * @param ${pkColumn.javaField}s ${ClassName}id 集合
+     * @return 结果
+     */
+    @ApiOperation("查询${ClassName}数据")
+    @GetMapping(value = "/{${pkColumn.javaField}s}")
+    public R getInfo(@PathVariable("${pkColumn.javaField}s") List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
+        return R.success(${className}Service.select${ClassName}ByIds(${pkColumn.javaField}s));
+    }
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @PostMapping
+    @ApiOperation("新增${functionName}")
+    @Log(title = "${functionName}" , businessType = BusinessType.INSERT)
+    public R add(${ClassName} ${className}) {
+        return R.r(${className}Service.insert${ClassName}(${className}));
+    }
+
+    /**
+     * 修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @PutMapping
+    @ApiOperation("修改${functionName}")
+    @Log(title = "${functionName}" , businessType = BusinessType.UPDATE)
+    public R edit(${ClassName} ${className}) {
+        return R.r(${className}Service.update${ClassName}(${className}));
+    }
+
+    /**
+     * 删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s ${ClassName}id 集合
+     * @return 结果
+     */
+    @DeleteMapping("/{${pkColumn.javaField}s}")
+    @ApiOperation("删除${functionName}")
+    @Log(title = "${functionName}" , businessType = BusinessType.DELETE)
+    public R remove(@PathVariable("${pkColumn.javaField}s") List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
+        return R.r(${className}Service.delete${ClassName}ByIds(${pkColumn.javaField}s));
+    }
+}

@@ -1,0 +1,31 @@
+# 服务
+server:
+  port: 8080
+
+#Spring
+spring:
+  application:
+    name: liao-gateway
+  profiles:
+    active: dev
+  main:
+    # 重复允许覆盖
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        # 服务中心注册地址
+        server-addr: 192.168.2.239:8848
+      config:
+        # 配置中心地址
+        server-addr: 192.168.2.239:8848
+        # 文件格式
+        file-extension: yml
+        # 共享
+        shared-configs:
+          # liao-gateway-dev.yml
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+client-a:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #针对client-a服务使用随机策略

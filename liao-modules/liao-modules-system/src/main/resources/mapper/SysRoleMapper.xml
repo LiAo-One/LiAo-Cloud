@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liao.system.dao.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.liao.system.entity.SysRole">
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_authority" property="roleAuthority"/>
+        <result column="role_sort" property="roleSort"/>
+        <result column="role_status" property="roleStatus"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        role_id, role_name, role_authority, role_sort, role_status, version, deleted, create_time, update_time
+    </sql>
+
+    <!--查询登录用户角色信息-->
+    <select id="selLoginUserRole" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT r.role_id, r.role_name, r.role_authority, r.role_sort, r.role_status
+        FROM sys_role r,
+             sys_admin_role sar
+        WHERE sar.role_id = r.role_id
+          AND sar.admin_id = #{userId}
+          AND r.role_status &lt;&gt; 1
+          AND r.deleted &lt;&gt; 1
+        LIMIT 0,1
+    </select>
+</mapper>

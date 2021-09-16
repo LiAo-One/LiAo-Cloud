@@ -1,0 +1,50 @@
+import {service_view} from '@/utils/request'
+
+// 查询${tableName}列表
+export function list${className}(query) {
+    return service_view({
+        url: '${tableName}/sel_page',
+        method: 'post',
+        params: query
+    })
+}
+
+// 查询${tableName}详细
+export function get${className}(id) {
+    return service_view({
+        url: '/${tableName}/sel_id',
+        method: 'post',
+        params: {
+            id
+        }
+    })
+}
+
+// 修改${tableName}
+export function update${className}(data) {
+    return service_view({
+        url: '/${tableName}/upd_id',
+        method: 'post',
+        params: data
+    })
+}
+
+// 添加${tableName}
+export function add${className}(data) {
+    return service_view({
+        url: '${tableName}/add',
+        method: 'post',
+        params: data
+    })
+}
+
+// 删除${tableName}
+export function delete${className}(ids) {
+    return service_view({
+        url: '${tableName}/del_ids',
+        method: 'post',
+        params: {
+            ids
+        }
+    })
+}

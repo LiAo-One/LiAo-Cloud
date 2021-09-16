@@ -1,0 +1,53 @@
+package ${packageName}.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+import java.util.Date;
+
+/**
+ * <p>
+ * ${functionName}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${datetime}
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@ApiModel(value = "${ClassName}对象", description = "${functionName}")
+public class ${ClassName} {
+
+    private static final long serialVersionUID=1L;
+#foreach ($column in $columns)
+
+#if($column.isPk == '1')
+    @TableId(value = "$column.columnName", type = IdType.ID_WORKER)
+#end
+#if($column.javaType == 'Long')
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+#end
+#if($column.javaField == 'deleted')
+    @TableField(select = false)
+    @TableLogic
+#end
+#if($column.javaField == 'version')
+    @TableField(select = false)
+    @Version
+#end
+#if($column.javaField == 'createTime')
+    @TableField(fill = FieldFill.INSERT)
+#end
+#if($column.javaField == 'updateTime')
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+#end
+    @ApiModelProperty(value = "$column.columnComment")
+    private $column.javaType $column.javaField;
+#end
+}
