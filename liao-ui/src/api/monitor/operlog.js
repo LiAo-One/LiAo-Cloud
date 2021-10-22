@@ -12,7 +12,7 @@ export function list(query) {
 // 删除操作日志
 export function delOperlog(ids) {
   return system_service({
-    url: '/system/sys-open-log/del_ids/',
+    url: '/system/sys-open-log/del_ids',
     method: 'post',
     params: {
       ids
@@ -25,14 +25,5 @@ export function cleanOperlog() {
   return system_service({
     url: '/system/sys-open-log/clean',
     method: 'delete'
-  })
-}
-
-// 导出操作日志
-export function exportOperlog(query) {
-  return system_service({
-    url: '/monitor/operlog/export',
-    method: 'get',
-    params: query
   })
 }

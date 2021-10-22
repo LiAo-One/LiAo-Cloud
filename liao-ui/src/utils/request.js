@@ -21,7 +21,6 @@ system_service.interceptors.request.use(config => {
   const isToken = (config.headers || {}).isToken === false
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-
   }
 
   if (config.params) {
@@ -106,23 +105,30 @@ function setTokenCheck(data) {
 
   // 排序
   let asciiSort = sort_ASCII(data.params);
+
   // 获取当前时间
   let timeInfo = format().toString();
+
+  // 加密原始值
+  let keys = timeInfo;
+
+  for (const asciiSortKey in asciiSort) {
+    keys += asciiSortKey;
+  }
 
   let secret = "c353fdcac26c4035bdb123c6d8f2e2b1";
 
   // 格式化对象参数
-  asciiSort = JSON.stringify(asciiSort).toString().replaceAll(":", "=")
-    .replaceAll('"', '').replaceAll(',', ', ');
+  /*asciiSort = JSON.stringify(asciiSort).toString().replaceAll(":", "=")
+    .replaceAll('"', '').replaceAll(',', ', ');*/
 
-  data.headers['X-Sign'] = md5(timeInfo + asciiSort + secret); // X-Sign
+  data.headers['X-Sign'] = md5(timeInfo + keys + secret); // X-Sign
 
   /*console.info("timeInfo:" + timeInfo);
   console.info("asciiSort:" + asciiSort);
   console.info("secret:" + secret);*/
 
   data.headers['Time-Info'] = timeInfo; // Time-Info
-
 }
 
 // 格式化参数
@@ -146,18 +152,18 @@ function sort_ASCII(obj) {
 // 获取当前时间
 
 function format() {
-  var date = new Date();
-  var seperator1 = "-";
-  var seperator2 = ":";
-  var month = date.getMonth() + 1;
-  var strDate = date.getDate();
+  let date = new Date();
+  let seperator1 = "-";
+  let seperator2 = ":";
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
   if (month >= 1 && month <= 9) {
     month = "0" + month;
   }
   if (strDate >= 0 && strDate <= 9) {
     strDate = "0" + strDate;
   }
-  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+  let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
     + " " + date.getHours() + seperator2 + date.getMinutes()
     + seperator2 + date.getSeconds();
   return currentdate;

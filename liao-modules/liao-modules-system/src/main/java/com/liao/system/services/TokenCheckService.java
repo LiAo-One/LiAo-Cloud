@@ -1,6 +1,9 @@
 package com.liao.system.services;
 
 import com.liao.common.core.R;
+import com.liao.system.entity.vo.RouterVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,11 +26,10 @@ public interface TokenCheckService {
     /**
      * 根据Key获取Token数据
      *
-     * @param name Token 数据头
      * @param key  Redis-key
      * @return 结果
      */
-    String getTokenMes(String name, String key);
+    List<RouterVo> getTokenMes(String key);
 
     /**
      * 获取当前登录用户数据

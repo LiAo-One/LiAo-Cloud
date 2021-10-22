@@ -127,6 +127,24 @@ public class RedisUtil {
         }
     }
 
+    /**
+     * 普通缓存放入并设置时间
+     *
+     * @param key   主键
+     * @param value 值
+     * @param time  时间 秒 小于零 将设置无限期
+     * @return
+     */
+    public boolean set(String key, Object value, long time) {
+        try {
+            redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     /**
      * 递增

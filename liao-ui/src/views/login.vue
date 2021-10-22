@@ -116,7 +116,7 @@ export default {
             })
             .catch(() => {
               this.loading = false
-              this.getCode()
+              /*this.getCode()*/
             })
         }
       })

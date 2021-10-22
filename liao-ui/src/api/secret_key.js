@@ -6,6 +6,6 @@ import { file_upload } from '@/utils/request'
  */
 export function image_key() {
   return file_upload({
-    url: 'tencent/cos_client'
+    url: '/system/tencent/cos_client'
   })
 }

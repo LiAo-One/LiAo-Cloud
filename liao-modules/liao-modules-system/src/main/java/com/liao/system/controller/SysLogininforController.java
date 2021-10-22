@@ -1,5 +1,6 @@
 package com.liao.system.controller;
 
+import com.liao.common.annotation.SignatureValidation;
 import com.liao.datascope.annotation.Log;
 import com.liao.common.core.R;
 import com.liao.common.enums.BusinessType;
@@ -112,6 +113,7 @@ public class SysLogininforController {
     @PostMapping("del_ids")
     @ApiOperation("根据ids批量删除")
     @Log(title = "系统访问记录", businessType = BusinessType.DELETE)
+    @SignatureValidation
     public R deletes(@RequestParam("ids") List<Long> ids){
         return sysLogininforService.deletes(ids);
     }
@@ -124,6 +126,7 @@ public class SysLogininforController {
     @DeleteMapping("clean")
     @ApiOperation("清空登录日志")
     @Log(title = "清空登录日志", businessType = BusinessType.CLEAN)
+    @SignatureValidation
     public R clean() {
         return sysLogininforService.clean();
     }

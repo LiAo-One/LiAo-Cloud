@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import {listData, getData, delData, addData, updateData, exportData} from "@/api/system/dict/data";
+import {listData, getData, deleteData, addData, updateData, exportData} from "@/api/system/dict/data";
 import {listType, getType} from "@/api/system/dict/type";
 
 export default {
@@ -293,7 +293,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(function () {
-        return delData(dictCodes);
+        return deleteData(dictCodes);
       }).then(() => {
         this.getList();
         this.msgSuccess("删除成功");

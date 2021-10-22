@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: 'Li Ao',
+      title: 'Manage',
       logo: logoImg
     }
   }

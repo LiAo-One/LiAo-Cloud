@@ -140,4 +140,34 @@ public class TokenUtil {
     public static String getTimeInfo(ServerHttpRequest request) {
         return request.getHeaders().getFirst(SecurityConstants.Time_Info);
     }
+
+    /**
+     * 获取用户信息token
+     *
+     * @param token token
+     * @return 用户key
+     */
+    public static String getUserTokenKey(String token) {
+        return "user_key_" + token;
+    }
+
+    /**
+     * 获取角色信息token
+     *
+     * @param token token
+     * @return 角色key
+     */
+    public static String getRoleTokenKey(String token) {
+        return "role_key_" + token;
+    }
+
+    /**
+     * 获取菜单信息token
+     *
+     * @param token token
+     * @return 菜单key
+     */
+    public static String getMenuTokenKey(String token) {
+        return "menu_key_" + token;
+    }
 }

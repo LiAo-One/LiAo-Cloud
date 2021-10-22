@@ -146,7 +146,7 @@ export function selectDictLabels(datas, value, separator) {
 
 // 通用下载方法
 export function download(fileName) {
-  window.location.href = 'http://192.168.2.72:8081' + '/common/download?fileName=' + encodeURI(fileName) + '&delete=' + true
+  window.location.href = process.env.VUE_APP_BASE_API + '/common/download?fileName=' + encodeURI(fileName) + '&delete=' + true
 }
 
 // 字符串格式化(%s )

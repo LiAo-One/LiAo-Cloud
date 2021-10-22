@@ -1,5 +1,5 @@
 module.exports = {
-  title: '你好啊 李澳',
+  title: 'Hello Manage',
 
   /**
    * 是否系统布局配置

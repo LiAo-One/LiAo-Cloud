@@ -45,15 +45,14 @@ public class TokenCheckController {
     /**
      * 根据Key获取Token数据
      *
-     * @param name  key
      * @param token Json 数据
      * @return 结果
      */
-    @GetMapping("token-mes")
+    @GetMapping("get_routers")
     @SignatureValidation
     @ApiOperation("获取Token数据")
-    public String getTokenMes(String name, String token) {
-        return tokenCheckService.getTokenMes(name, token);
+    public R getTokenMes(String token) {
+        return R.success(tokenCheckService.getTokenMes(token));
     }
 
     /**

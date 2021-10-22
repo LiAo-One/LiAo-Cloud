@@ -1,4 +1,4 @@
-import { system_service } from '@/utils/request'
+import {system_service} from '@/utils/request'
 
 // 查询用户列表
 export function listAdmin(query) {
@@ -32,42 +32,37 @@ export function updateAdmin(data) {
 // 添加用户
 export function addAdmin(data) {
   return system_service({
-    url:'/system/sys-admin/add',
-    method:'post',
-    params:data
+    url: '/system/sys-admin/add',
+    method: 'post',
+    params: data
   })
 }
 
 // 删除单个用户
 export function deleteAdmin(ids) {
   return system_service({
-    url:'/system/sys-admin/del_ids',
-    method:'post',
-    params:{
+    url: '/system/sys-admin/del_ids',
+    method: 'post',
+    params: {
       ids
     }
   })
 }
 
-// 用户密码重置
-export function updateUserPwd(oldPassword, newPassword) {
-  const data = {
-    oldPassword,
-    newPassword
-  }
+// 下载用户导入模板
+export function importTemplate() {
   return system_service({
-    url: '/system/user/profile/updatePwd',
-    method: 'put',
-    params: data
+    url: '/system/sys-admin/importTemplate',
+    method: 'get'
   })
 }
 
-// 用户头像上传
-export function uploadAvatar(data) {
+// 导出用户
+export function exportUser(query) {
   return system_service({
-    url: '/system/user/profile/avatar',
-    method: 'post',
-    data: data
+    url: '/system/sys-admin/export',
+    method: 'get',
+    params: query
   })
 }
 

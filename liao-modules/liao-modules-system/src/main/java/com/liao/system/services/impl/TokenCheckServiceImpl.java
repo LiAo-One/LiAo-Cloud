@@ -5,13 +5,18 @@ import com.liao.common.core.R;
 import com.liao.common.exception.user.LoginExpiredException;
 import com.liao.common.utils.TokenUtil;
 import com.liao.cache.utils.RedisUtil;
+import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.dao.SysRoleMapper;
 import com.liao.system.entity.SysAdmin;
 import com.liao.system.entity.SysRole;
+import com.liao.system.entity.vo.RouterVo;
+import com.liao.system.services.SysMenuService;
 import com.liao.system.services.TokenCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,8 +25,13 @@ public class TokenCheckServiceImpl implements TokenCheckService {
     @Autowired
     private RedisUtil redisUtil;
 
+    // 角色
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
-    private Object List;
+    // 按钮
+    @Autowired
+    private SysMenuService sysMenuService;
 
     /**
      * Tokne 校验
@@ -45,22 +55,24 @@ public class TokenCheckServiceImpl implements TokenCheckService {
     /**
      * 根据Key获取Token数据
      *
-     * @param name Token 数据头
      * @param key  Redis-key
      * @return 结果
      */
     @Override
-    public String getTokenMes(String name, String key) {
+    public List<RouterVo> getTokenMes(String key) {
 
         // 根据key获取Token
         if (!redisUtil.hasKey(key)) {
             throw new LoginExpiredException();
         }
 
-        // 获取token
-        String token = (String) redisUtil.get(key);
+        SysRole sysRole = (SysRole)redisUtil.get(TokenUtil.getRoleTokenKey(key));
 
-        return TokenUtil.getTokenMes(name, token);
+        // userMenu
+        java.util.List<SysMenu> menus = sysMenuService.selectLoginMenuList(sysRole.getRoleId());
+
+        // 转换为路由
+        return sysMenuService.buildMenus(menus);
     }
 
     /**
@@ -76,21 +88,10 @@ public class TokenCheckServiceImpl implements TokenCheckService {
             throw new LoginExpiredException();
         }
 
-        // 获取token
-        String token = (String) redisUtil.get(key);
-
         Map<String, Object> map = new HashMap<>();
 
-        String user = TokenUtil.getTokenMes("user", token);
-        String role = TokenUtil.getTokenMes("role", token);
-        String menus = TokenUtil.getTokenMes("menu", token);
-
-        JSONObject userJos = JSONObject.parseObject(user);
-        JSONObject roleJos = JSONObject.parseObject(role);
-
-        map.put("user", JSONObject.toJavaObject(userJos, SysAdmin.class));
-        map.put("role", JSONObject.toJavaObject(roleJos, SysRole.class));
-
-        return R.success(menus,map);
+        map.put("user", redisUtil.get(TokenUtil.getUserTokenKey(key)));
+        map.put("role", redisUtil.get(TokenUtil.getRoleTokenKey(key)));
+        return R.success(map);
     }
 }

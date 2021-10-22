@@ -3,7 +3,7 @@ import { system_service } from '@/utils/request'
 // 登录方法
 export function login(adminAccount, adminPassword) {
   return system_service({
-    url: 'system/sys-admin/login',
+    url: '/system/sys-admin/login',
     method: 'post',
     params: {
       adminAccount,
@@ -15,7 +15,7 @@ export function login(adminAccount, adminPassword) {
 // 获取用户详细信息
 export function getInfo(token) {
   return system_service({
-    url: 'system/token/token-mes-all',
+    url: '/system/token/token-mes-all',
     params: {
       token
     },
@@ -26,7 +26,7 @@ export function getInfo(token) {
 // 退出方法
 export function logout(token) {
   return system_service({
-    url: 'system/sys-admin/logout',
+    url: '/system/sys-admin/logout',
     method: 'post',
     params: {
       token
@@ -37,7 +37,7 @@ export function logout(token) {
 // 获取验证码
 export function getCodeImg() {
   return system_service({
-    url: 'system/captchaImage',
+    url: '/system/captchaImage',
     method: 'get'
   })
 }

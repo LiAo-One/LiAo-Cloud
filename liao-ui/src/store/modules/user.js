@@ -50,8 +50,8 @@ const user = {
         getInfo(state.token).then(res => {
           const user = res.data.user
           const role = res.data.role
-          const menu = JSON.parse(res.msg)
-          const avatar = user.adminAvatar === '' ? require('@/assets/image/679308.jpg') : process.env.VUE_APP_BASE_API + user.avatar
+          const menu = res.data.menus
+          const avatar = user.adminAvatar === '' ? require('@/assets/image/20201229198.jpg') : process.env.VUE_APP_BASE_API + user.avatar
           if (role.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', role)
             commit('SET_PERMISSIONS', menu)

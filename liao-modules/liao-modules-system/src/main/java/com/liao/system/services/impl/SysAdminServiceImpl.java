@@ -98,14 +98,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
             throw new LoginException();
         }
 
-        Map<String, String> map = new HashMap<>();
-
         Long userId = sysAdminIPage.get(0).getAdminId();
-
-        // userJsonStr
-        String userJsonStr = JSON.toJSONString(sysAdminIPage.get(0));
-
-        map.put("user", userJsonStr);
 
         // userRole
         SysRole sysRole = sysRoleMapper.selLoginUserRole(userId);
@@ -114,11 +107,6 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "账户角色权限信息异常"));
             throw new PermissionException();
         }
-
-        // userRole
-        String userRole = JSON.toJSONString(sysRole);
-        map.put("role", userRole);
-
         // userMenu
         List<SysMenu> menus = sysMenuService.selectLoginMenuList(sysRole.getRoleId());
 
@@ -132,20 +120,23 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
         // userMenu
         String userMenu = JSON.toJSONString(routerVos);
-        map.put("menu", userMenu);
 
-        // 生成Token
-        String token = TokenUtil.token(map);
+        // 生成唯一Redis-key
+        String token = IdUtil.randomUUID();
 
-        // 生成唯一id
-        String redisKey = IdUtil.simpleUUID();
+        // 存储用户信息
+        redisUtil.set(TokenUtil.getUserTokenKey(token), sysAdminIPage.get(0), Constants.EXPIRE_DATE);
+        // 按钮 路由
+        redisUtil.set(TokenUtil.getMenuTokenKey(token), userMenu, Constants.EXPIRE_DATE);
+        // 角色
+        redisUtil.set(TokenUtil.getRoleTokenKey(token), sysRole, Constants.EXPIRE_DATE);
 
-        // 入库
-        redisUtil.set(redisKey, token, Constants.EXPIRE_DATE);
+        // token入库
+        redisUtil.set(token, token, Constants.EXPIRE_DATE);
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_SUCCESS, "登录成功"));
 
-        return R.success(redisKey, map);
+        return R.success(token);
     }
 
     /**
@@ -156,7 +147,10 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
      */
     @Override
     public R logout(String token) {
-        redisUtil.del(token);
+        redisUtil.del(token,
+                TokenUtil.getMenuTokenKey(token),
+                TokenUtil.getUserTokenKey(token),
+                TokenUtil.getRoleTokenKey(token));
         return R.success();
     }
 

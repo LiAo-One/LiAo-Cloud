@@ -3,7 +3,7 @@ import {system_service} from '@/utils/request'
 // 查询字典数据列表
 export function listData(query) {
   return system_service({
-    url: 'system/sys-dict-data/sel_page',
+    url: '/system/sys-dict-data/sel_page',
     method: 'post',
     params: query
   })
@@ -57,11 +57,3 @@ export function deleteData(ids) {
   })
 }
 
-// 导出字典数据
-export function exportData(query) {
-  return system_service({
-    url: '/system/system/dict/data/export',
-    method: 'get',
-    params: query
-  })
-}

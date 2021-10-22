@@ -49,23 +49,6 @@ export function delType(ids) {
   })
 }
 
-// 清理参数缓存
-export function clearCache() {
-  return request({
-    url: '/system/system/dict/type/clearCache',
-    method: 'delete'
-  })
-}
-
-// 导出字典类型
-export function exportType(query) {
-  return request({
-    url: '/system/dict/type/export',
-    method: 'get',
-    params: query
-  })
-}
-
 // 获取字典选择框列表
 export function optionselect() {
   return system_service({

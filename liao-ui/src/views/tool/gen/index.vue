@@ -232,7 +232,7 @@ export default {
           this.msgSuccess("成功生成到自定义路径：" + row.genPath);
         });
       } else {
-        downLoadZip("/gen/gen-table/batchGenCode?tables=" + tableNames, "liao");
+        downLoadZip("/tool/gen-table/batchGenCode?tables=" + tableNames, "liao");
       }
     },
     /** 同步数据库操作 */

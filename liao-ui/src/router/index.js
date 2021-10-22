@@ -121,8 +121,9 @@ export const constantRoutes = [
 ]
 
 export default new Router({
-  // base: '/admin',
-  mode: 'history', // 去掉url中的#
+  base: '/admin',
+  //mode: 'hash', // hash模式
+  // mode: 'history', // 去掉url中的#
   scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })

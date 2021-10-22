@@ -3,7 +3,7 @@ import {system_service} from '@/utils/request'
 // 查询生成表数据
 export function listTable(query) {
   return system_service({
-    url: '/gen/gen-table/sel_page',
+    url: '/tool/gen-table/sel_page',
     method: 'post',
     params: query
   })
@@ -12,7 +12,7 @@ export function listTable(query) {
 // 查询db数据库列表
 export function listDbTable(query) {
   return system_service({
-    url: '/gen/gen-table/db/list',
+    url: '/tool/gen-table/db/list',
     method: 'get',
     params: query
   })
@@ -21,7 +21,7 @@ export function listDbTable(query) {
 // 查询表详细信息
 export function getGenTable(tableId) {
   return system_service({
-    url: '/gen/gen-table/' + tableId,
+    url: '/tool/gen-table/' + tableId,
     method: 'get'
   })
 }
@@ -29,7 +29,7 @@ export function getGenTable(tableId) {
 // 修改代码生成信息
 export function updateGenTable(data) {
   return system_service({
-    url: '/gen/gen-table',
+    url: '/tool/gen-table',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateGenTable(data) {
 // 导入表
 export function importTable(data) {
   return system_service({
-    url: '/gen/gen-table/importTable',
+    url: '/tool/gen-table/importTable',
     method: 'post',
     params: data
   })
@@ -47,7 +47,7 @@ export function importTable(data) {
 // 预览生成代码
 export function previewTable(tableId) {
   return system_service({
-    url: '/gen/tool/gen/preview/' + tableId,
+    url: '/tool/gen/preview/' + tableId,
     method: 'get'
   })
 }
@@ -55,7 +55,7 @@ export function previewTable(tableId) {
 // 删除表数据
 export function delTable(ids) {
   return system_service({
-    url: '/gen/gen-table/del_ids',
+    url: '/tool/gen-table/del_ids',
     method: 'post',
     params: {
       ids
@@ -66,7 +66,7 @@ export function delTable(ids) {
 // 生成代码（自定义路径）
 export function genCode(tableName) {
   return system_service({
-    url: '/gen/tool/gen/genCode/' + tableName,
+    url: '/tool/gen/genCode/' + tableName,
     method: 'get'
   })
 }
@@ -74,7 +74,7 @@ export function genCode(tableName) {
 // 同步数据库
 export function synchDb(tableName) {
   return system_service({
-    url: '/gen/tool/gen/synchDb/' + tableName,
+    url: '/tool/gen/synchDb/' + tableName,
     method: 'get'
   })
 }

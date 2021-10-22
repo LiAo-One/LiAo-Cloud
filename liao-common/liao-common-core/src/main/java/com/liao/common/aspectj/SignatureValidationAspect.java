@@ -59,9 +59,7 @@ public class SignatureValidationAspect {
         String timeInfo = ServletUtils.getRequest().getHeader(SecurityConstants.Time_Info);
 
         // 格式化后的参数
-        String asciiSort = setRequestValue();
-
-        log.info("=========parmJSON===>{}", asciiSort);
+        String asciiSort = timeInfo + setRequestValue();
 
         // 判断token是否为空
         if (StringUtils.isEmpty(token)) {
@@ -75,9 +73,6 @@ public class SignatureValidationAspect {
 
         // 生成MD5 Token
         String newToken = SecureUtil.md5(timeInfo + asciiSort + Constants.SECRET);
-
-        /*log.info("============>timeInfo:{}====>asciiSort:{}====>:Constants.SECRET{}",
-                timeInfo, asciiSort, Constants.SECRET);*/
 
         // 校验Token
         if (!newToken.equals(token)) {
@@ -115,18 +110,22 @@ public class SignatureValidationAspect {
             return "";
         }
 
+        StringBuilder keyStr = new StringBuilder();
+
         Set<String> strings = map.keySet();
 
         TreeMap<String, String[]> stringTreeMap = new TreeMap<>();
 
+        // 排序集合
         for (String string : strings) {
             stringTreeMap.put(string, map.get(string));
         }
 
+        for (String key : stringTreeMap.keySet()) {
+            keyStr.append(key);
+        }
 
-        log.info(JSON.toJSONString(stringTreeMap));
-
-        return Convert.toMapString(stringTreeMap);
+        return keyStr.toString();
     }
 }
 

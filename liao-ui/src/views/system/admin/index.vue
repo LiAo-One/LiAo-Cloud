@@ -70,6 +70,27 @@
             >删除
             </el-button>
           </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="info"
+              plain
+              icon="el-icon-upload2"
+              size="mini"
+              @click="handleImport"
+            >导入
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button
+              type="warning"
+              plain
+              icon="el-icon-download"
+              size="mini"
+              :loading="exportLoading"
+              @click="handleExport"
+            >导出
+            </el-button>
+          </el-col>
           <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
 
@@ -205,6 +226,38 @@
       </div>
     </el-dialog>
 
+    <!-- 用户导入对话框 -->
+    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" append-to-body>
+      <el-upload
+        ref="upload"
+        :limit="1"
+        accept=".xlsx, .xls"
+        :headers="upload.headers"
+        :action="upload.url + '?isUpdate=' + upload.isUpdate"
+        :disabled="upload.isUploading"
+        :on-progress="handleFileUploadProgress"
+        :on-success="handleFileSuccess"
+        :auto-upload="false"
+        drag
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip text-center" slot="tip">
+          <div class="el-upload__tip" slot="tip">
+            <el-checkbox v-model="upload.isUpdate"/>
+            是否更新已经存在的用户数据
+          </div>
+          <span>仅允许导入xls、xlsx格式文件。</span>
+          <el-link type="primary" :underline="false" style="font-size:12px;vertical-align: baseline;"
+                   @click="importTemplate">下载模板
+          </el-link>
+        </div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFileForm">确 定</el-button>
+        <el-button @click="upload.open = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -214,12 +267,14 @@ import {
   getAdmin,
   updateAdmin,
   addAdmin,
-  deleteAdmin
+  deleteAdmin,
+  importTemplate,
+  exportUser
 } from '@/api/system/admin'
 
-import {
-  roleMenu
-} from '@/api/system/role'
+import {roleMenu} from '@/api/system/role'
+
+import {getToken} from "@/utils/auth";
 
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -230,6 +285,8 @@ export default {
     return {
       // 遮罩层
       loading: true,
+      // 导出遮罩层
+      exportLoading: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -256,6 +313,21 @@ export default {
         children: 'children',
         label: 'label'
       },
+      // 用户导入参数
+      upload: {
+        // 是否显示弹出层（用户导入）
+        open: false,
+        // 弹出层标题（用户导入）
+        title: "",
+        // 是否禁用上传
+        isUploading: false,
+        // 是否更新已经存在的用户数据
+        isUpdate: 0,
+        // 设置上传的请求头部
+        headers: {Authorization: "Bearer " + getToken()},
+        // 上传的地址
+        url: process.env.VUE_APP_BASE_API + "/sys-admin/importData"
+      },
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -267,19 +339,19 @@ export default {
       // 表单校验
       rules: {
         adminName: [
-          { required: true, message: '用户名称不能为空', trigger: 'blur' }
+          {required: true, message: '用户名称不能为空', trigger: 'blur'}
         ],
         adminNickname: [
-          { required: true, message: '用户昵称不能为空', trigger: 'blur' }
+          {required: true, message: '用户昵称不能为空', trigger: 'blur'}
         ],
         adminAccount: [
-          { required: true, message: '用户账号不能为空', trigger: 'blur' }
+          {required: true, message: '用户账号不能为空', trigger: 'blur'}
         ],
         adminPassword: [
-          { required: true, message: '用户密码不能为空', trigger: 'blur' }
+          {required: true, message: '用户密码不能为空', trigger: 'blur'}
         ],
         adminEmail: [
-          { required: true, message: '邮箱地址不能为空', trigger: 'blur' },
+          {required: true, message: '邮箱地址不能为空', trigger: 'blur'},
           {
             type: 'email',
             message: '\'请输入正确的邮箱地址',
@@ -287,7 +359,7 @@ export default {
           }
         ],
         phonenumber: [
-          { required: true, message: '手机号码不能为空', trigger: 'blur' },
+          {required: true, message: '手机号码不能为空', trigger: 'blur'},
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: '请输入正确的手机号码',
@@ -405,7 +477,7 @@ export default {
       })
     },
     /** 提交按钮 */
-    submitForm: function() {
+    submitForm: function () {
       this.$refs['form'].validate(valid => {
         if (valid) {
           if (this.form.adminId !== undefined) {
@@ -431,13 +503,56 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(function() {
+      }).then(function () {
         return deleteAdmin(userIds.toString())
       }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')
       })
-    }
+    },
+    /** 导入按钮操作 */
+    handleImport() {
+      this.upload.title = "用户导入";
+      this.upload.open = true;
+    },
+    /** 件上传中处理*/
+    handleFileUploadProgress(event, file, fileList) {
+      // 取消禁用上传
+      this.upload.isUploading = true;
+    },
+    /** 文件上传成功处理*/
+    handleFileSuccess(response, file, fileList) {
+      this.upload.open = false;
+      this.upload.isUploading = false;
+      this.$refs.upload.clearFiles();
+      this.$alert(response.msg, "导入结果", {dangerouslyUseHTMLString: true});
+      this.getList();
+    },
+    /** 下载模板操作 */
+    importTemplate() {
+      importTemplate().then(response => {
+        this.download(response.msg);
+      });
+    },
+    /** 提交上传文件 */
+    submitFileForm() {
+      this.$refs.upload.submit();
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      const queryParams = this.queryParams;
+      this.$confirm('是否确认导出所有用户数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.exportLoading = true;
+        return exportUser(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+        this.exportLoading = false;
+      }).catch(() => {});
+    },
   }
 }
 </script>
