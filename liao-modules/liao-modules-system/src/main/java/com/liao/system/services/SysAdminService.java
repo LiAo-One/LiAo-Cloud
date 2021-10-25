@@ -26,6 +26,13 @@ public interface SysAdminService extends IService<SysAdmin> {
     R login(String adminAccount, String adminPassword);
 
     /**
+     * 获取当前登录用户数据
+     *
+     * @return 用户信息
+     */
+    SysAdmin getLoginInfo();
+
+    /**
      * 退出登录
      *
      * @param token token

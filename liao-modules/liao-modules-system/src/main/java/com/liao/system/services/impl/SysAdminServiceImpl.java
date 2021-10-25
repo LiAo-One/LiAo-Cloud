@@ -10,6 +10,7 @@ import com.liao.common.core.R;
 import com.liao.common.exception.BusinessException;
 import com.liao.common.exception.check.MissingParametersException;
 import com.liao.common.exception.user.LoginException;
+import com.liao.common.exception.user.LoginExpiredException;
 import com.liao.common.exception.user.PermissionException;
 import com.liao.common.utils.StringUtils;
 import com.liao.common.utils.TokenUtil;
@@ -137,6 +138,26 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_SUCCESS, "登录成功"));
 
         return R.success(token);
+    }
+
+    /**
+     * 获取当前登录用户数据
+     *
+     * @return 用户信息
+     */
+    @Override
+    public SysAdmin getLoginInfo() {
+        // 获取登录用户Token
+        String token = TokenUtil.getLoginUserToken();
+
+        SysAdmin loginInfo = (SysAdmin) redisUtil.get(token);
+
+        // 为空抛异常
+        if (StringUtils.isNull(loginInfo)) {
+            throw new LoginExpiredException();
+        }
+
+        return loginInfo;
     }
 
     /**

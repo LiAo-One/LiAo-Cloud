@@ -1,7 +1,3 @@
 -- 菜单 SQL
-insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, version, deleted,create_time, update_time, remark)
-values('${functionName}', '${parentMenuId}', '1', '${businessName}', '${moduleName}/${businessName}/index', 1, 0, 'C', '0', '0', '${permissionPrefix}:list', '#', 1, 0, new(), new(), 'Code菜单');
-
--- 按钮父菜单ID
-SELECT @parentId := LAST_INSERT_ID();
-
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_time, update_time)
+values('${functionName}', '${parentMenuId}', '1', '${businessName}', '${moduleName}/${businessName}/index', 1, 0, 'C', '0', '0', '#', '#', now(), now());
