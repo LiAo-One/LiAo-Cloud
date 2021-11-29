@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Notification, MessageBox, Message} from 'element-ui'
+import {Message, MessageBox, Notification} from 'element-ui'
 import store from '@/store'
 import {getToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
@@ -38,7 +38,6 @@ system_service.interceptors.request.use(config => {
     setTokenCheck(config);
 
   }
-
   return config
 }, error => {
   Promise.reject(error)
@@ -118,15 +117,8 @@ function setTokenCheck(data) {
 
   let secret = "c353fdcac26c4035bdb123c6d8f2e2b1";
 
-  // 格式化对象参数
-  /*asciiSort = JSON.stringify(asciiSort).toString().replaceAll(":", "=")
-    .replaceAll('"', '').replaceAll(',', ', ');*/
 
   data.headers['X-Sign'] = md5(timeInfo + keys + secret); // X-Sign
-
-  /*console.info("timeInfo:" + timeInfo);
-  console.info("asciiSort:" + asciiSort);
-  console.info("secret:" + secret);*/
 
   data.headers['Time-Info'] = timeInfo; // Time-Info
 }
@@ -150,7 +142,6 @@ function sort_ASCII(obj) {
 }
 
 // 获取当前时间
-
 function format() {
   let date = new Date();
   let seperator1 = "-";
@@ -163,10 +154,9 @@ function format() {
   if (strDate >= 0 && strDate <= 9) {
     strDate = "0" + strDate;
   }
-  let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+  return date.getFullYear() + seperator1 + month + seperator1 + strDate
     + " " + date.getHours() + seperator2 + date.getMinutes()
     + seperator2 + date.getSeconds();
-  return currentdate;
 }
 
 export {system_service}
