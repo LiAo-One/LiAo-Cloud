@@ -42,7 +42,11 @@ public class SysAdminController {
     @ApiOperation("管理员登录")
     @SignatureValidation
     public R login(String adminAccount, String adminPassword) {
-        return sysAdminService.login(adminAccount, adminPassword);
+
+        String login = sysAdminService.login(adminAccount, adminPassword);
+        R success = R.success();
+
+        return success;
     }
 
     /**

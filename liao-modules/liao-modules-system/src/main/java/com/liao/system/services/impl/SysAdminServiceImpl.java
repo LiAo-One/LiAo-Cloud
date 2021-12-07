@@ -86,7 +86,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
      * @return 结果
      */
     @Override
-    public R login(String adminAccount, String adminPassword) {
+    public String login(String adminAccount, String adminPassword) {
 
         QueryWrapper<SysAdmin> wrapper = new QueryWrapper<>();
         wrapper.eq("admin_account", adminAccount)
@@ -137,7 +137,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_SUCCESS, "登录成功"));
 
-        return R.success(token);
+        return token;
     }
 
     /**

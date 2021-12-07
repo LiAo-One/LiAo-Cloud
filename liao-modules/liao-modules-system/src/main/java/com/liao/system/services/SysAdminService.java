@@ -23,7 +23,7 @@ public interface SysAdminService extends IService<SysAdmin> {
      * @param adminPassword 密码
      * @return 结果
      */
-    R login(String adminAccount, String adminPassword);
+    String login(String adminAccount, String adminPassword);
 
     /**
      * 获取当前登录用户数据

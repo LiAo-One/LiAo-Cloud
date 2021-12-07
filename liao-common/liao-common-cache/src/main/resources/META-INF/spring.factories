@@ -1,0 +1,5 @@
+# ??SpringBoot???????
+# ???ComponentScan ????????
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.liao.cache.config.RedisCacheConfig,\
+  com.liao.cache.service.RedisService

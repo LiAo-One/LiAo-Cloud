@@ -60,10 +60,23 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!--验证码 -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+        </dependency>
+
         <!-- 通用工具-->
         <dependency>
             <groupId>com.liao</groupId>
             <artifactId>liao-common-core</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <!-- 缓存工具-->
+        <dependency>
+            <groupId>com.liao</groupId>
+            <artifactId>liao-common-cache</artifactId>
             <version>0.0.1</version>
         </dependency>
 
