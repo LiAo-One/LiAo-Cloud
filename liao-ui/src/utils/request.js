@@ -19,6 +19,8 @@ const system_service = axios.create({
 system_service.interceptors.request.use(config => {
   // 是否需要设置 token
   const isToken = (config.headers || {}).isToken === false
+  config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
@@ -33,10 +35,8 @@ system_service.interceptors.request.use(config => {
     if (config.params.loginTime) {
       config.params.loginTime = null
     }
-
     // 封装校验
     setTokenCheck(config);
-
   }
   return config
 }, error => {

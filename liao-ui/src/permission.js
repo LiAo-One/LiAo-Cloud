@@ -1,12 +1,12 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import {Message} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
 import log from '@/views/monitor/job/log'
 
-NProgress.configure({ showSpinner: false })
+NProgress.configure({showSpinner: false})
 
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 
@@ -15,26 +15,25 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     /* has token*/
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({path: '/'})
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
         // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => {
           // 拉取user_info
-          const roles = res.data.menus
-          store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
+          store.dispatch('GenerateRoutes').then(accessRoutes => {
             // 测试 默认静态页面
             // store.dispatch('permission/generateRoutes', { roles }).then(accessRoutes => {
             // 根据roles权限生成可访问的路由
             router.addRoutes(accessRoutes) // 动态添加可访问路由表
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+            next({...to, replace: true}) // hack方法 确保addRoutes已完成
           })
         })
           .catch(err => {
             store.dispatch('FedLogOut').then(() => {
               Message.error(err)
-              next({ path: '/' })
+              next({path: '/'})
             })
           })
       } else {

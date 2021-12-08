@@ -1,4 +1,4 @@
-import { system_service } from '@/utils/request'
+import {system_service} from '@/utils/request'
 
 // 登录方法
 export function login(adminAccount, adminPassword) {
@@ -9,6 +9,23 @@ export function login(adminAccount, adminPassword) {
       adminAccount,
       adminPassword
     }
+  })
+}
+
+export function logins(username, password, code, uuid) {
+  const data = {
+    username,
+    password,
+    code,
+    uuid
+  }
+  return system_service({
+    url: '/auth/login',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
   })
 }
 
@@ -23,13 +40,21 @@ export function getInfo(token) {
   })
 }
 
+// 获取用户详细信息
+export function getInfos() {
+  return system_service({
+    url: '/auth/getInfo',
+    method: 'get',
+    params: {}
+  })
+}
+
 // 退出方法
 export function logout(token) {
   return system_service({
-    url: '/system/sys-admin/logout',
+    url: '/auth/logout',
     method: 'post',
     params: {
-      token
     }
   })
 }
@@ -37,7 +62,11 @@ export function logout(token) {
 // 获取验证码
 export function getCodeImg() {
   return system_service({
-    url: '/system/captchaImage',
-    method: 'get'
+    url: '/captchaImage',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
   })
 }
