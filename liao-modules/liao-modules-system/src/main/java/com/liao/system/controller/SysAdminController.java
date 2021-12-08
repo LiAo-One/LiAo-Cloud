@@ -24,8 +24,8 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/sys-admin")
 @Api(tags = "管理员")
+@RequestMapping("/sys-admin")
 public class SysAdminController {
 
     @Autowired
