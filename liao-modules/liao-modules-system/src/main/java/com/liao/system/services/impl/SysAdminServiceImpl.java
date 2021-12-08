@@ -2,6 +2,7 @@ package com.liao.system.services.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.nacos.shaded.com.google.protobuf.ServiceException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,6 +13,7 @@ import com.liao.common.exception.check.MissingParametersException;
 import com.liao.common.exception.user.LoginException;
 import com.liao.common.exception.user.LoginExpiredException;
 import com.liao.common.exception.user.PermissionException;
+import com.liao.common.utils.SecurityUtils;
 import com.liao.common.utils.StringUtils;
 import com.liao.common.utils.TokenUtil;
 import com.liao.datascope.core.page.PageUtils;
@@ -89,20 +91,27 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     public String login(String adminAccount, String adminPassword) {
 
         QueryWrapper<SysAdmin> wrapper = new QueryWrapper<>();
-        wrapper.eq("admin_account", adminAccount)
-                .eq("admin_password", adminPassword);
+        wrapper.eq("admin_account", adminAccount);
         List<SysAdmin> sysAdminIPage = sysAdminMapper.selectPage(PageUtils.startDefPage(), wrapper).getRecords();
 
         // 登录校验
         if (StringUtils.isEmpty(sysAdminIPage)) {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "账号密码错误"));
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "用户不存在"));
             throw new LoginException();
         }
 
-        Long userId = sysAdminIPage.get(0).getAdminId();
+        SysAdmin admin = sysAdminIPage.get(0);
+
+        System.out.println(admin);
+
+        if (!SecurityUtils.matchesPassword(adminPassword, admin.getAdminPassword()))
+        {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "用户密码错误"));
+            throw new LoginException();
+        }
 
         // userRole
-        SysRole sysRole = sysRoleMapper.selLoginUserRole(userId);
+        SysRole sysRole = sysRoleMapper.selLoginUserRole(admin.getAdminId());
 
         if (StringUtils.isNull(sysRole)) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "账户角色权限信息异常"));
@@ -269,6 +278,10 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public R add(SysAdmin recode, Long roleId) {
 
+        if (StringUtils.isNotNull(recode.getAdminPassword())){
+            recode.setAdminPassword(SecurityUtils.encryptPassword(recode.getAdminPassword()));
+        }
+
         sysAdminMapper.insert(recode);
 
         // 角色id不为空
@@ -296,6 +309,11 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         if (StringUtils.isEmpty(recode.getAdminId())) {
             throw new MissingParametersException("管理员ID");
         }
+
+        if (StringUtils.isNotNull(recode.getAdminPassword())){
+            recode.setAdminPassword(SecurityUtils.encryptPassword(recode.getAdminPassword()));
+        }
+
         // 角色信息更新
         if (StringUtils.isNotNull(roleId)) {
             SysAdminRole sysAdminRole = new SysAdminRole();

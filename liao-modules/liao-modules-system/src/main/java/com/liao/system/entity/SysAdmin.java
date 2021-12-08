@@ -36,7 +36,6 @@ public class SysAdmin implements Serializable {
     private String adminAccount;
 
     @ApiModelProperty(value = "密码")
-    @TableField(select = false)
     private String adminPassword;
 
     @ApiModelProperty(value = "姓名")

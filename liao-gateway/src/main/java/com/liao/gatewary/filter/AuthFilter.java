@@ -1,8 +1,6 @@
 package com.liao.gatewary.filter;
 
 import com.liao.common.constant.HttpStatus;
-import com.liao.common.constant.SecurityConstants;
-import com.liao.common.utils.SecurityUtils;
 import com.liao.common.utils.ServletUtils;
 import com.liao.common.utils.StringUtils;
 import com.liao.common.utils.TokenUtil;
@@ -70,7 +68,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
         log.error("[鉴权异常处理]请求路径:{}", exchange.getRequest().getPath());
         return ServletUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED);
     }
-
 
 
     @Override

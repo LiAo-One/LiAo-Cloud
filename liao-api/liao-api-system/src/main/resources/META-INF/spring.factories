@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.liao.system.api.factory.RemoteUserFallbackFactory

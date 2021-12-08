@@ -24,5 +24,11 @@ public class SecurityConstants {
     // 请求时间戳
     public static final String Time_Info = "Time-Info";
 
+    // 请求来源
+    public static final String FROM_SOURCE = "from-source";
+
+    // 内部请求
+    public static final String INNER = "inner";
+
 
 }

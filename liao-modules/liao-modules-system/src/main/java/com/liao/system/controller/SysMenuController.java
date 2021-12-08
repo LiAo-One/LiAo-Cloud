@@ -5,6 +5,7 @@ import com.liao.datascope.annotation.Log;
 import com.liao.common.core.R;
 import com.liao.common.enums.BusinessType;
 import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.entity.vo.RouterVo;
 import com.liao.system.services.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -145,6 +146,18 @@ public class SysMenuController {
         r.put("checkedKeys", sysMenuService.selectMenuListByRoleId(roleId));
         r.put("menus", sysMenuService.buildMenuTreeSelect(menus));
         return r;
+    }
+
+    /**
+     * 加载用户路由
+     *
+     * @param sysMenus 按钮
+     * @return 路由
+     */
+    @GetMapping("get-router")
+    @ApiOperation("加载角色对应的菜单树列表")
+    public List<RouterVo> getUserRouterVo(List<SysMenu> sysMenus) {
+        return sysMenuService.buildMenus(sysMenus);
     }
 
     /**

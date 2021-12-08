@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.liao.common.constant.SecurityConstants;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,6 +119,18 @@ public class TokenUtil {
     public static String getToken(ServerHttpRequest request) {
         String token = request.getHeaders().getFirst(SecurityConstants.TOKEN_AUTHENTICATION);
 
+        return SecurityUtils.replaceTokenPrefix(token);
+    }
+
+
+    /**
+     * 获取Token
+     *
+     * @param request 请求  HttpServletRequest
+     * @return token
+     */
+    public static String getToken(HttpServletRequest request){
+        String token = request.getHeader(SecurityConstants.TOKEN_AUTHENTICATION);
         return SecurityUtils.replaceTokenPrefix(token);
     }
 

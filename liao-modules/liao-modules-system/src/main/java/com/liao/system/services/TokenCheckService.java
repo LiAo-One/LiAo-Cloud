@@ -1,6 +1,7 @@
 package com.liao.system.services;
 
 import com.liao.common.core.R;
+import com.liao.datascope.system.entity.SysMenu;
 import com.liao.system.entity.vo.RouterVo;
 
 import java.util.List;
@@ -38,4 +39,11 @@ public interface TokenCheckService {
      * @return 数据
      */
     R getTokenMesAll(String key);
+
+    /**
+     * 根据用户信息查询菜单树
+     *
+     * @return 菜单列表
+     */
+    List<SysMenu> selectMenuTreeByUserId();
 }

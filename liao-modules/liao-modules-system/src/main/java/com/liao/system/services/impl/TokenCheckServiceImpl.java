@@ -1,10 +1,12 @@
 package com.liao.system.services.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.nacos.shaded.org.checkerframework.checker.units.qual.A;
+import com.liao.cache.utils.RedisUtil;
 import com.liao.common.core.R;
 import com.liao.common.exception.user.LoginExpiredException;
+import com.liao.common.utils.ServletUtils;
 import com.liao.common.utils.TokenUtil;
-import com.liao.cache.utils.RedisUtil;
+import com.liao.datascope.core.redis.RedisCache;
 import com.liao.datascope.system.entity.SysMenu;
 import com.liao.system.dao.SysRoleMapper;
 import com.liao.system.entity.SysAdmin;
@@ -24,6 +26,9 @@ public class TokenCheckServiceImpl implements TokenCheckService {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private RedisCache redisCache;
 
     // 角色
     @Autowired
@@ -55,7 +60,7 @@ public class TokenCheckServiceImpl implements TokenCheckService {
     /**
      * 根据Key获取Token数据
      *
-     * @param key  Redis-key
+     * @param key Redis-key
      * @return 结果
      */
     @Override
@@ -66,7 +71,7 @@ public class TokenCheckServiceImpl implements TokenCheckService {
             throw new LoginExpiredException();
         }
 
-        SysRole sysRole = (SysRole)redisUtil.get(TokenUtil.getRoleTokenKey(key));
+        SysRole sysRole = (SysRole) redisUtil.get(TokenUtil.getRoleTokenKey(key));
 
         // userMenu
         java.util.List<SysMenu> menus = sysMenuService.selectLoginMenuList(sysRole.getRoleId());
@@ -93,5 +98,22 @@ public class TokenCheckServiceImpl implements TokenCheckService {
         map.put("user", redisUtil.get(TokenUtil.getUserTokenKey(key)));
         map.put("role", redisUtil.get(TokenUtil.getRoleTokenKey(key)));
         return R.success(map);
+    }
+
+    /**
+     * 根据用户信息查询菜单树
+     *
+     * @return 菜单列表
+     */
+    @Override
+    public List<SysMenu> selectMenuTreeByUserId() {
+
+        String token = TokenUtil.getToken(ServletUtils.getRequest());
+
+        SysAdmin user = (SysAdmin) redisCache.getCacheObject(TokenUtil.getUserTokenKey(token));
+        // userRole
+        SysRole sysRole = sysRoleMapper.selLoginUserRole(user.getAdminId());
+
+        return sysMenuService.selectLoginMenuList(sysRole.getRoleId());
     }
 }

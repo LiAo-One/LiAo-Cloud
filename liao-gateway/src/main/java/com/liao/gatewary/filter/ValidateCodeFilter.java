@@ -1,4 +1,4 @@
-package com.liao.gatewary.config;
+package com.liao.gatewary.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.liao.common.utils.ServletUtils;
@@ -11,6 +11,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.nio.CharBuffer;
@@ -25,9 +26,10 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author LiAo
  * @since 2021/12/7
  */
+@Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
 
-    private final static String[] VALIDATE_URL = new String[]{"/sys-admin/login", "/register"};
+    private final static String[] VALIDATE_URL = new String[]{"*/login", "/register"};
 
     @Autowired
     private ValidateCodeService validateCodeService;
@@ -49,13 +51,12 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
             if (!StringUtils.containsAnyIgnoreCase(request.getURI().getPath(), VALIDATE_URL) || !captchaProperties.getEnabled()) {
                 return chain.filter(exchange);
             }
-
-
             try {
 
                 String rspStr = resolveBodyFromRequest(request);
 
                 JSONObject obj = JSONObject.parseObject(rspStr);
+
                 validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
 
             } catch (Exception e) {
