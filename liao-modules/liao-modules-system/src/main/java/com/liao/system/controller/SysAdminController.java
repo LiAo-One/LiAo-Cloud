@@ -42,7 +42,7 @@ public class SysAdminController {
      */
     @PostMapping("login")
     @ApiOperation("管理员登录")
-    // @SignatureValidation
+    @SignatureValidation
     public R login(String adminAccount, String adminPassword) {
 
         String login = sysAdminService.login(adminAccount, adminPassword);
@@ -60,7 +60,6 @@ public class SysAdminController {
      */
     @PostMapping("get_login_token")
     @ApiOperation("管理员登录")
-    // @SignatureValidation
     public String getLoginToken(String adminAccount, String adminPassword) {
         return sysAdminService.login(adminAccount, adminPassword);
     }

@@ -81,7 +81,6 @@ public class TokenCheckController {
      * @return 结果
      */
     @GetMapping("get-login-user-menu")
-    @SignatureValidation
     @ApiOperation("获取登录用户按钮")
     public List<SysMenu> getLoginUserMenu() {
         return tokenCheckService.selectMenuTreeByUserId();

@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LiaoModulesGenApplication {
+public class LiaoGenApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LiaoModulesGenApplication.class, args);
+		SpringApplication.run(LiaoGenApplication.class, args);
 	}
-
 }

@@ -14,10 +14,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>liao-gateway</module>
-        <module>liao-common</module>
-        <module>liao-modules</module>
         <module>liao-api</module>
+        <module>liao-common</module>
+        <module>liao-gateway</module>
+        <module>liao-modules</module>
     </modules>
 
     <properties>

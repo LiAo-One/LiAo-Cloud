@@ -76,7 +76,7 @@ public class SysAdminRoleController {
      */
     @PostMapping("add")
     @ApiOperation("添加数据")
-    // @SignatureValidation
+    @SignatureValidation
     @Log(title = "管理员角色关联表", businessType = BusinessType.INSERT)
     public R add(SysAdminRole recode) {
         return sysAdminRoleService.add(recode);
@@ -90,7 +90,7 @@ public class SysAdminRoleController {
      */
     @PostMapping("upd_id")
     @ApiOperation("根据id修改")
-    // @SignatureValidation
+    @SignatureValidation
     @Log(title = "管理员角色关联表", businessType = BusinessType.UPDATE)
     public R upd(SysAdminRole recode) {
         return sysAdminRoleService.updById(recode);

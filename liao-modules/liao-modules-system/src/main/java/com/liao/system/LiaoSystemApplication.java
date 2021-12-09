@@ -6,10 +6,10 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
 @SpringBootApplication
-public class LiaoModulesSystemApplication {
+public class LiaoSystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LiaoModulesSystemApplication.class, args);
+		SpringApplication.run(LiaoSystemApplication.class, args);
 	}
 
 }
