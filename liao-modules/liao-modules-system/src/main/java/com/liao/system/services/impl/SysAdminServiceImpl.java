@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liao.common.constant.Constants;
 import com.liao.common.core.R;
 import com.liao.common.exception.BusinessException;
+import com.liao.common.exception.ServiceException;
 import com.liao.common.exception.check.MissingParametersException;
 import com.liao.common.exception.user.LoginException;
 import com.liao.common.exception.user.LoginExpiredException;
@@ -19,6 +20,7 @@ import com.liao.datascope.core.page.PageUtils;
 import com.liao.cache.utils.RedisUtil;
 import com.liao.framework.manager.AsyncManager;
 import com.liao.framework.manager.factory.AsyncFactory;
+import com.liao.system.api.entity.LoginUser;
 import com.liao.system.api.entity.SysMenu;
 import com.liao.system.dao.SysAdminMapper;
 import com.liao.system.dao.SysAdminRoleMapper;
@@ -36,9 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -98,8 +98,6 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         }
 
         SysAdmin admin = sysAdminIPage.get(0);
-
-        System.out.println(admin);
 
         if (!SecurityUtils.matchesPassword(adminPassword, admin.getAdminPassword())) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "用户密码错误"));
@@ -164,6 +162,33 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         }
 
         return loginInfo;
+    }
+
+    /**
+     * 用户名查询用户信息
+     *
+     * @param userName 名称
+     * @return 结果
+     */
+    @Override
+    public LoginUser selectUserByUserName(String userName) {
+        QueryWrapper<SysAdmin> wrapper = new QueryWrapper<>();
+        wrapper.eq("admin_account", userName);
+        List<SysAdmin> sysAdmins = sysAdminMapper.selectPage(PageUtils.startDefPage(), wrapper).getRecords();
+        if (StringUtils.isNull(sysAdmins)) {
+            throw new ServiceException("登录用户：" + userName + " 不存在");
+        }
+
+        SysAdmin admin = sysAdmins.get(0);
+
+        // userRole
+        SysRole sysRole = sysRoleMapper.selLoginUserRole(admin.getAdminId());
+
+        LoginUser sysUserVo = new LoginUser();
+        sysUserVo.setSysAdmin(admin);
+        sysUserVo.setRoles(Collections.singletonList(sysRole.getRoleName()));
+        sysUserVo.setPermissions(Collections.singletonList("*:*:*"));
+        return sysUserVo;
     }
 
     /**

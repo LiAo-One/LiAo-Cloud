@@ -1,7 +1,9 @@
 package com.liao.system.services;
 
+import com.alibaba.nacos.shaded.com.google.protobuf.ServiceException;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
+import com.liao.system.api.entity.LoginUser;
 import com.liao.system.api.entity.SysAdmin;
 
 import java.util.List;
@@ -31,6 +33,14 @@ public interface SysAdminService extends IService<SysAdmin> {
      * @return 用户信息
      */
     SysAdmin getLoginInfo();
+
+    /**
+     * 用户名查询用户信息
+     *
+     * @param userName 名称
+     * @return 结果
+     */
+    LoginUser selectUserByUserName(String userName) ;
 
     /**
      * 退出登录

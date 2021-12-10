@@ -4,6 +4,7 @@ import com.liao.common.annotation.SignatureValidation;
 import com.liao.common.core.R;
 import com.liao.common.enums.BusinessType;
 import com.liao.datascope.annotation.Log;
+import com.liao.system.api.entity.LoginUser;
 import com.liao.system.api.entity.SysAdmin;
 import com.liao.system.services.SysAdminService;
 import io.swagger.annotations.Api;
@@ -44,7 +45,14 @@ public class SysAdminController {
         return sysAdminService.login(adminAccount, adminPassword);
     }
 
-
+    /**
+     * 获取当前用户信息
+     */
+    @GetMapping("/info/{username}")
+    @ApiOperation("获取用户信息")
+    public LoginUser info(@PathVariable("username") String username) {
+        return sysAdminService.selectUserByUserName(username);
+    }
 
     /**
      * 退出登录
