@@ -1,7 +1,7 @@
 package com.liao.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liao.datascope.system.entity.SysLogininfor;
+import com.liao.system.api.entity.SysLogininfor;
 import org.apache.ibatis.annotations.Update;
 
 /**

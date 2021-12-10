@@ -5,7 +5,7 @@ import com.liao.common.constant.Constants;
 import com.liao.common.utils.StringUtils;
 import com.liao.common.utils.spring.SpringUtils;
 import com.liao.datascope.core.redis.RedisCache;
-import com.liao.datascope.system.entity.SysDictData;
+import com.liao.system.api.entity.SysDictData;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
@@ -120,15 +120,17 @@ public class DictUtils {
         List<SysDictData> datas = getDictCache(dictType);
 
         if (StringUtils.containsAny(separator, dictLabel) && StringUtils.isNotEmpty(datas)) {
+            assert datas != null;
             for (SysDictData dict : datas) {
                 for (String label : dictLabel.split(separator)) {
                     if (label.equals(dict.getDictLabel())) {
-                        propertyString.append(dict.getDictValue() + separator);
+                        propertyString.append(dict.getDictValue()).append(separator);
                         break;
                     }
                 }
             }
         } else {
+            assert datas != null;
             for (SysDictData dict : datas) {
                 if (dictLabel.equals(dict.getDictLabel())) {
                     return dict.getDictValue();

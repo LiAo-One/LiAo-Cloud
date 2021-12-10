@@ -4,7 +4,7 @@ import com.liao.common.annotation.SignatureValidation;
 import com.liao.datascope.annotation.Log;
 import com.liao.common.core.R;
 import com.liao.common.enums.BusinessType;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
 import com.liao.system.entity.vo.RouterVo;
 import com.liao.system.services.SysMenuService;
 import io.swagger.annotations.Api;

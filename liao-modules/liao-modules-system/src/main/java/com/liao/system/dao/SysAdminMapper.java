@@ -1,7 +1,7 @@
 package com.liao.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liao.system.entity.SysAdmin;
+import com.liao.system.api.entity.SysAdmin;
 
 /**
  * <p>

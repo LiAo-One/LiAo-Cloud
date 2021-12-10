@@ -7,9 +7,9 @@ import com.liao.common.core.R;
 import com.liao.datascope.core.page.PageUtils;
 import com.liao.common.exception.check.MissingParametersException;
 import com.liao.datascope.system.dao.SysOpenLogMapper;
-import com.liao.datascope.system.entity.SysOpenLog;
 import com.liao.datascope.system.services.SysOpenLogService;
 import com.liao.common.utils.StringUtils;
+import com.liao.system.api.entity.SysOpenLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

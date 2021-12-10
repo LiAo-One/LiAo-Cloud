@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liao.datascope.system.dao.SysOpenLogMapper">
 
-    <resultMap id="BaseResultMap" type="com.liao.datascope.system.entity.SysOpenLog">
+    <resultMap id="BaseResultMap" type="com.liao.system.api.entity.SysOpenLog">
         <id column="oper_id" property="operId"/>
         <result column="oper_title" property="operTitle"/>
         <result column="open_business_type" property="openBusinessType"/>

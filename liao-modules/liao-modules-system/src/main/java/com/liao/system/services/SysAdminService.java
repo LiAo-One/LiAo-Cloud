@@ -2,7 +2,7 @@ package com.liao.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
-import com.liao.system.entity.SysAdmin;
+import com.liao.system.api.entity.SysAdmin;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.liao.system.api.factory;
 
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysMenu;
 import com.liao.system.api.RemoteUserService;
+import com.liao.system.api.entity.SysMenu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

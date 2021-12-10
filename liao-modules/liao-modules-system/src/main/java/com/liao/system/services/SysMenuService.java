@@ -2,8 +2,8 @@ package com.liao.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
-import com.liao.datascope.core.entity.TreeSelect;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
+import com.liao.system.entity.vo.TreeSelect;
 import com.liao.system.entity.vo.RouterVo;
 
 import java.util.List;

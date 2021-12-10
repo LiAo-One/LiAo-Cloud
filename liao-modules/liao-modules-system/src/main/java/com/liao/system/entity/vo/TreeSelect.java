@@ -1,7 +1,7 @@
-package com.liao.datascope.core.entity;
+package com.liao.system.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,8 +33,7 @@ public class TreeSelect implements Serializable {
     public TreeSelect() {
     }
 
-    public TreeSelect(SysMenu menu)
-    {
+    public TreeSelect(SysMenu menu) {
         this.id = menu.getMenuId();
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());

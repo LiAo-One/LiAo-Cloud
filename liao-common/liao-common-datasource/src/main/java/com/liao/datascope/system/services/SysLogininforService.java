@@ -2,7 +2,7 @@ package com.liao.datascope.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysLogininfor;
+import com.liao.system.api.entity.SysLogininfor;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param recode 条件
      * @return 结果
      */
-     R selPage(SysLogininfor recode);
+    R selPage(SysLogininfor recode);
 
     /**
      * 根据id查询数据
@@ -30,7 +30,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param id id
      * @return 结果
      */
-     R findById(Long id);
+    R findById(Long id);
 
     /**
      * 根据ids查询数据
@@ -38,7 +38,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param ids ids
      * @return 结果
      */
-     R findByIds(List<Long> ids);
+    R findByIds(List<Long> ids);
 
     /**
      * 添加数据
@@ -46,7 +46,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param recode 添加参数
      * @return 结果
      */
-     R add(SysLogininfor recode);
+    R add(SysLogininfor recode);
 
     /**
      * 根据id修改
@@ -54,7 +54,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param recode 修改参数
      * @return 结果
      */
-     R updById(SysLogininfor recode);
+    R updById(SysLogininfor recode);
 
     /**
      * 根据id删除
@@ -62,7 +62,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param id id
      * @return 结果
      */
-     R delete(Long id);
+    R delete(Long id);
 
     /**
      * 根据id批量删除
@@ -70,7 +70,7 @@ public interface SysLogininforService extends IService<SysLogininfor> {
      * @param ids id集合
      * @return 结果
      */
-     R deletes(List<Long> ids);
+    R deletes(List<Long> ids);
 
     /**
      * 清空操作日志

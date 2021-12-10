@@ -7,7 +7,6 @@ import com.liao.common.constant.SecurityConstants;
 import com.liao.common.core.R;
 import com.liao.common.utils.ServletUtils;
 import com.liao.common.utils.TokenUtil;
-import com.liao.datascope.system.entity.SysMenu;
 import com.liao.system.api.RemoteUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
-import java.util.List;
+
 
 /**
  * <p>

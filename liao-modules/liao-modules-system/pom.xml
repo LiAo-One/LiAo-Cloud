@@ -40,24 +40,10 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
-		<!-- 通用工具-->
-		<dependency>
-			<groupId>com.liao</groupId>
-			<artifactId>liao-common-core</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-
 		<!-- 数据-->
 		<dependency>
 			<groupId>com.liao</groupId>
 			<artifactId>liao-common-datasource</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-
-		<!--缓存-->
-		<dependency>
-			<groupId>com.liao</groupId>
-			<artifactId>liao-common-cache</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>

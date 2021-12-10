@@ -1,15 +1,14 @@
 package com.liao.system.services.impl;
 
-import com.alibaba.nacos.shaded.org.checkerframework.checker.units.qual.A;
 import com.liao.cache.utils.RedisUtil;
 import com.liao.common.core.R;
 import com.liao.common.exception.user.LoginExpiredException;
 import com.liao.common.utils.ServletUtils;
 import com.liao.common.utils.TokenUtil;
 import com.liao.datascope.core.redis.RedisCache;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
 import com.liao.system.dao.SysRoleMapper;
-import com.liao.system.entity.SysAdmin;
+import com.liao.system.api.entity.SysAdmin;
 import com.liao.system.entity.SysRole;
 import com.liao.system.entity.vo.RouterVo;
 import com.liao.system.services.SysMenuService;

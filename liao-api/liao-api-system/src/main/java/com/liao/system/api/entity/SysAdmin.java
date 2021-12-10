@@ -1,4 +1,4 @@
-package com.liao.system.entity;
+package com.liao.system.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;

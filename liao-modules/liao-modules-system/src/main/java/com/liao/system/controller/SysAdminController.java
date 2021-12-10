@@ -3,10 +3,8 @@ package com.liao.system.controller;
 import com.liao.common.annotation.SignatureValidation;
 import com.liao.common.core.R;
 import com.liao.common.enums.BusinessType;
-import com.liao.common.utils.ServletUtils;
-import com.liao.common.utils.TokenUtil;
 import com.liao.datascope.annotation.Log;
-import com.liao.system.entity.SysAdmin;
+import com.liao.system.api.entity.SysAdmin;
 import com.liao.system.services.SysAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,24 +32,6 @@ public class SysAdminController {
     private SysAdminService sysAdminService;
 
     /**
-     * 管理员登录
-     *
-     * @param adminAccount  账号
-     * @param adminPassword 密码
-     * @return 结果
-     */
-    @PostMapping("login")
-    @ApiOperation("管理员登录")
-    @SignatureValidation
-    public R login(String adminAccount, String adminPassword) {
-
-        String login = sysAdminService.login(adminAccount, adminPassword);
-        R success = R.success();
-
-        return success;
-    }
-
-    /**
      * 获取用户登录Token
      *
      * @param adminAccount  账号
@@ -63,6 +43,8 @@ public class SysAdminController {
     public String getLoginToken(String adminAccount, String adminPassword) {
         return sysAdminService.login(adminAccount, adminPassword);
     }
+
+
 
     /**
      * 退出登录

@@ -2,7 +2,6 @@ package com.liao.system.services.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.nacos.shaded.com.google.protobuf.ServiceException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,14 +16,14 @@ import com.liao.common.utils.SecurityUtils;
 import com.liao.common.utils.StringUtils;
 import com.liao.common.utils.TokenUtil;
 import com.liao.datascope.core.page.PageUtils;
-import com.liao.datascope.system.entity.SysMenu;
 import com.liao.cache.utils.RedisUtil;
 import com.liao.framework.manager.AsyncManager;
 import com.liao.framework.manager.factory.AsyncFactory;
+import com.liao.system.api.entity.SysMenu;
 import com.liao.system.dao.SysAdminMapper;
 import com.liao.system.dao.SysAdminRoleMapper;
 import com.liao.system.dao.SysRoleMapper;
-import com.liao.system.entity.SysAdmin;
+import com.liao.system.api.entity.SysAdmin;
 import com.liao.system.entity.SysAdminRole;
 import com.liao.system.entity.SysRole;
 import com.liao.system.entity.vo.RouterVo;
@@ -33,8 +32,6 @@ import com.liao.system.services.SysAdminService;
 import com.liao.system.services.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,8 +101,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
         System.out.println(admin);
 
-        if (!SecurityUtils.matchesPassword(adminPassword, admin.getAdminPassword()))
-        {
+        if (!SecurityUtils.matchesPassword(adminPassword, admin.getAdminPassword())) {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(adminAccount, Constants.LOGIN_FAIL, "用户密码错误"));
             throw new LoginException();
         }
@@ -148,6 +144,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
         return token;
     }
+
 
     /**
      * 获取当前登录用户数据
@@ -278,7 +275,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public R add(SysAdmin recode, Long roleId) {
 
-        if (StringUtils.isNotNull(recode.getAdminPassword())){
+        if (StringUtils.isNotNull(recode.getAdminPassword())) {
             recode.setAdminPassword(SecurityUtils.encryptPassword(recode.getAdminPassword()));
         }
 
@@ -310,7 +307,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
             throw new MissingParametersException("管理员ID");
         }
 
-        if (StringUtils.isNotNull(recode.getAdminPassword())){
+        if (StringUtils.isNotNull(recode.getAdminPassword())) {
             recode.setAdminPassword(SecurityUtils.encryptPassword(recode.getAdminPassword()));
         }
 

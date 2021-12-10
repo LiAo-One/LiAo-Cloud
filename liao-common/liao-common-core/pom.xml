@@ -36,6 +36,13 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
 
+        <!--MyBatis Plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+
 
         <!--JWT-->
         <dependency>

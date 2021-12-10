@@ -3,7 +3,7 @@ package com.liao.system.api;
 import com.liao.common.constant.SecurityConstants;
 import com.liao.common.constant.ServiceNameConstants;
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
 import com.liao.system.api.factory.RemoteUserFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+
 /**
  * <p>
  * 用户服务
@@ -21,7 +22,8 @@ import java.util.List;
  * @author LiAo
  * @since 2021/12/8
  */
-@FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
+@FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE,
+        fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteUserService {
 
     /**

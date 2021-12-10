@@ -1,7 +1,7 @@
 package com.liao.system.services;
 
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysMenu;
+import com.liao.system.api.entity.SysMenu;
 import com.liao.system.entity.vo.RouterVo;
 
 import java.util.List;

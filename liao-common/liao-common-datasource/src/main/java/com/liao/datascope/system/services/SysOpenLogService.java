@@ -2,7 +2,7 @@ package com.liao.datascope.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysOpenLog;
+import com.liao.system.api.entity.SysOpenLog;
 
 import java.util.List;
 

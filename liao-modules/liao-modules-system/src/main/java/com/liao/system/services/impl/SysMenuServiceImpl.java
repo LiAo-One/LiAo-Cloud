@@ -1,14 +1,13 @@
 package com.liao.system.services.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liao.common.constant.UserConstants;
 import com.liao.common.core.R;
-import com.liao.datascope.core.entity.TreeSelect;
+import com.liao.system.api.entity.SysMenu;
+import com.liao.system.entity.vo.TreeSelect;
 import com.liao.datascope.core.page.PageUtils;
 import com.liao.common.exception.check.MissingParametersException;
-import com.liao.datascope.system.entity.SysMenu;
 import com.liao.common.utils.StringUtils;
 import com.liao.system.dao.SysMenuMapper;
 import com.liao.system.dao.SysRoleMapper;

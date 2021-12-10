@@ -2,7 +2,7 @@ package com.liao.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liao.common.core.R;
-import com.liao.datascope.system.entity.SysDictData;
+import com.liao.system.api.entity.SysDictData;
 
 import java.util.List;
 
