@@ -3,13 +3,11 @@ package com.liao.system.api;
 import com.liao.common.constant.SecurityConstants;
 import com.liao.common.constant.ServiceNameConstants;
 import com.liao.common.core.R;
+import com.liao.system.api.entity.LoginUser;
 import com.liao.system.api.entity.SysMenu;
 import com.liao.system.api.factory.RemoteUserFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +36,17 @@ public interface RemoteUserService {
     String getLoginToken(@RequestParam(name = "adminAccount") String adminAccount,
                          @RequestParam(name = "adminPassword") String adminPassword,
                          @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 用户名查询用户信息
+     *
+     * @param username 用户名
+     * @param source   请求来源
+     * @return 结果
+     */
+    @GetMapping("/sys-admin/info/{username}")
+    LoginUser info(@PathVariable("username") String username,
+                   @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 获取登录用户按钮

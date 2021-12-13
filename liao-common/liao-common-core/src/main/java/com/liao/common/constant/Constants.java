@@ -63,4 +63,13 @@ public class Constants {
 
     // 验证码有效期（分钟）
     public static final long CAPTCHA_EXPIRATION = 2;
+
+    // 注册
+    public static final String REGISTER = "Register";
+
+    // 登录用户 redis key
+    public static final String LOGIN_TOKEN_KEY = "login_tokens:";
+
+    // 令牌前缀
+    public static final String LOGIN_USER_KEY = "login_user_key";
 }

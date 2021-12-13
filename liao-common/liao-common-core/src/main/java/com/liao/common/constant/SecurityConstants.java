@@ -30,5 +30,24 @@ public class SecurityConstants {
     // 内部请求
     public static final String INNER = "inner";
 
+    /**
+     * 登录用户
+     */
+    public static final String LOGIN_USER = "login_user";
+
+    /**
+     * 用户标识
+     */
+    public static final String USER_KEY = "user_key";
+
+    /**
+     * 用户ID字段
+     */
+    public static final String DETAILS_USER_ID = "user_id";
+
+    /**
+     * 用户名字段
+     */
+    public static final String DETAILS_USERNAME = "username";
 
 }

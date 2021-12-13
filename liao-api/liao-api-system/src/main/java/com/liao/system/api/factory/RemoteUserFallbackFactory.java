@@ -2,6 +2,7 @@ package com.liao.system.api.factory;
 
 import com.liao.common.core.R;
 import com.liao.system.api.RemoteUserService;
+import com.liao.system.api.entity.LoginUser;
 import com.liao.system.api.entity.SysMenu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
@@ -27,6 +28,11 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService() {
             @Override
             public String getLoginToken(String adminAccount, String adminPassword, String source) {
+                return null;
+            }
+
+            @Override
+            public LoginUser info(String username, String source) {
                 return null;
             }
 
